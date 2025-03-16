@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-secretroot}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-mariadatabase}"
+      MYSQL_USER: "${MYSQL_USER:-secretuser}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-secretpassword}"
+    ports:
+      - "3306:3306"
+
+  api:
+    image: ghcr.io/annanorlyk/calculatorassignment:staging
+    depends_on:
+      - mariadb
+    ports:
+      - "5153:5153"
+    environment:
+      ASPNETCORE_URLS: "http://+:5153"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_HOST: "mariadb"
+      DB_NAME: "${MYSQL_DATABASE:-mariadatabase}"
+      DB_USER: "${MYSQL_USER:-secretuser}"
+      DB_PASSWORD: "${MYSQL_PASSWORD:-secretpassword}"
+
+  flyway:
+    image: flyway/flyway:latest
+    container_name: flyway
+    depends_on:
+      - mariadb
+    volumes:
+      - ./db/migrations:/flyway/sql
+    # Delay 10 seconds, then run migrations
+    entrypoint: ["sh", "-c", "sleep 10 && flyway migrate"]
+    environment:
+      FLYWAY_URL: "jdbc:mariadb://mariadb:3306/${MYSQL_DATABASE}"
+      FLYWAY_USER: "${MYSQL_USER}"
+      FLYWAY_PASSWORD: "${MYSQL_PASSWORD}"
