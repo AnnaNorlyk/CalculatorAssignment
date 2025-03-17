@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Docker Compose
         run: |
-            docker compose -f docker compose.yml up -d
+            docker compose -f docker-compose.yml up -d
         env:
           MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
