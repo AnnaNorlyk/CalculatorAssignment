@@ -6,7 +6,9 @@ public class CachedCalculator : ICalculator
 {
     public readonly SimpleCalculator _calculator = new();
     public readonly Dictionary<string, Calculation> _cache = new();
-    
+
+    public Dictionary<string, Calculation> Cache => _cache;
+
     public int Add(int a, int b)
     {
         var calc = GetCachedResult<int>(a, b) ?? StoreInCache(_calculator.Add(a, b), a, b);
