@@ -37,7 +37,7 @@ jobs:
         run: |
           docker build -t ghcr.io/${{ env.REPO_NAME }}:staging \
                        -t ghcr.io/${{ env.REPO_NAME }}:${{ steps.semver-app.outputs.version }} \
-                       -f ./API/Dockerfile .
+                       -f ./CalculatorAPI/Dockerfile \
 
           docker push ghcr.io/${{ env.REPO_NAME }}:staging
           docker push ghcr.io/${{ env.REPO_NAME }}:${{ steps.semver-app.outputs.version }}
