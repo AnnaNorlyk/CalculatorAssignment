@@ -32,15 +32,16 @@ jobs:
         id: repo_name
         run: echo "REPO_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      # Build and Push Docker image
       - name: Build and Push Docker image
         run: |
           docker build -t ghcr.io/${{ env.REPO_NAME }}:staging \
-                       -t ghcr.io/${{ env.REPO_NAME }}:${{ steps.semver-app.outputs.version }} \
-                       -f ./CalculatorAPI/Dockerfile \
+                 -t ghcr.io/${{ env.REPO_NAME }}:${{ steps.semver-app.outputs.version }} \
+                 -f ./CalculatorAPI/Dockerfile \
+                 .  
 
           docker push ghcr.io/${{ env.REPO_NAME }}:staging
           docker push ghcr.io/${{ env.REPO_NAME }}:${{ steps.semver-app.outputs.version }}
+
 
       # Create release notes
       - name: Create release notes
