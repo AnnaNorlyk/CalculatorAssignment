@@ -213,11 +213,12 @@ public class CachedCalculatorTest
         var x = 7;
         var y = 4;
 
-        // Act
+        // Act (both calls are part of the single scenario we’re testing)
+        calc.Add(x, y);
         calc.Add(x, y);
 
-        // Assert
-        Assert.That(calc.Cache, Has.Count.EqualTo(1));
+        // Assert (only one cached entry should exist for identical calls)
+        Assert.That(calc._cache.Count, Is.EqualTo(1));
     }
 
     [Test]
