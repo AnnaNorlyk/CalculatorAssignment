@@ -5,10 +5,10 @@ services:
     image: mariadb:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-secretroot}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE:-mariadatabase}"
-      MYSQL_USER: "${MYSQL_USER:-secretuser}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-secretpassword}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
     ports:
       - "3306:3306"
 
@@ -22,9 +22,9 @@ services:
       ASPNETCORE_URLS: "http://+:5153"
       ASPNETCORE_ENVIRONMENT: "Development"
       DB_HOST: "mariadb"
-      DB_NAME: "${MYSQL_DATABASE:-mariadatabase}"
-      DB_USER: "${MYSQL_USER:-secretuser}"
-      DB_PASSWORD: "${MYSQL_PASSWORD:-secretpassword}"
+      DB_NAME: "${MYSQL_DATABASE}"
+      DB_USER: "${MYSQL_USER}"
+      DB_PASSWORD: "${MYSQL_PASSWORD}"
 
   flyway:
     image: flyway/flyway:latest
